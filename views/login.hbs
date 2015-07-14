@@ -1,0 +1,22 @@
+<div class="container">
+  <h1>{{title}}</h1>
+
+  <form  method="post" action='/login'>
+      <div>
+          <label>Username:</label>
+          <input class="form-control username-input"  required value="{{input.username}}"  type="text" name="username" required/>
+      </div>
+      <div>
+          <label>Password:</label>
+          <!--html5 required does not work-->
+          <input class="form-control password-input" type="password" name="password" autocomplete="off" required />
+      </div>
+      <div>
+          <input class="btn btn-primary add-user"  type="submit" value="Log In"/>
+      </div>
+      {{#if error}}
+      <span style="color:red">{{error}}</span>
+      {{/if}}
+  </form>
+
+</div>
