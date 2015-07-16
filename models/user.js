@@ -19,11 +19,7 @@ var schema = {
       type: 'string'
     },
     password: {
-      permissions: {
-               '*': [],
-               'owner': [], // why does admin & demo need to be cleared, when '*' is cleared?
-               'admin': []
-            }
+      type: 'string'
     },
     roles: {
       type: 'array',
@@ -59,7 +55,7 @@ var User = serverbone.models.ACLModel.extend({
 
     //options.actor = "hidden";
     // how to define sign in action?
-    if (this.isNew() && !this.checkPassword(this.attributes))
+    if (!this.isNew() && !this.checkPassword(this.attributes))
     {
       console.log("Incorrect credentials!");
     }
@@ -85,9 +81,9 @@ var User = serverbone.models.ACLModel.extend({
 
   userExists: function(username)
   {
-    var self =this;
+
     var user ;
-    self.collection.fetch
+    this.collection.fetch
     ({
         success: function(collection, response, options)
         {

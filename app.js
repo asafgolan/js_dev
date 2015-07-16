@@ -11,6 +11,13 @@ var flash = require('connect-flash');
 var config = require('./config');
 var models = require('./models');
 var collections = require('./collections');
+/*
+var user = new models.User({
+  username:'baba',
+  password: 'easy',
+});
+
+user.save();*/
 
 var usersResource = new serverbone.resources.Resource('users', {
   collection: collections.Users
@@ -89,12 +96,14 @@ app.use(function(err, req, res, next) {
 });
 
 
+
+/*
 //demi admin
-//var users = new collections.Users();
-//users.create( {
-  //  username: 'admin',
-    //password: 'admin',
-    //roles: ['admin']
-//});
+var users = new collections.Users();
+users.create( {
+    username: 'admin',
+    password: 'admin',
+    roles: ['admin']
+});*/
 
 module.exports = app;

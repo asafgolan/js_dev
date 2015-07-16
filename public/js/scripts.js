@@ -36,7 +36,7 @@ var UserView = Backbone.View.extend({
 	initialize: function() {
 		this.template = _.template($('.users-list-template').html());
 	},
-  events: {
+/*  events: {
     'click .edit-user': 'edit',
     'click .update-user': 'update',
     'click .cancel': 'cancel',
@@ -83,11 +83,14 @@ var UserView = Backbone.View.extend({
   			console.log('Failed to delete user!');
 			  }
   		});
-  	},
+  	},*/
 
   render: function() {
-    this.$el.html(this.template(this.model.toJSON()));
-    return this;
+		var self = this;
+		if(self.model.get('id')){
+      self.$el.html(this.template(this.model.toJSON()));
+    }
+      return self;
   }
 });
 
@@ -98,17 +101,17 @@ var UsersView = Backbone.View.extend({
   el: $('.users-list'),
   initialize: function(){
     var self = this;
-    this.model.on('add', this.render, this);
-    this.model.on('change', function() {
+    this.listenTo(this.model,'sync', this.render);
+    /*this.model.on('change', function() {
 			setTimeout(function() {
 				self.render();
 			}, 30);
-		},this);
+		},this);*/
     this.model.on('remove',this.render,this);
 
 		this.model.fetch({
 			success: function(response) {
-				console.log(response);
+				//console.log(response);
 				_.each(response.toJSON(), function(item) {
 					console.log('Successfully GOT user with id: ' + item.id);
 				})
@@ -144,13 +147,13 @@ $(document).ready(function() {
 		$('.password-input').val('');
 		users.add(user);
 		user.save(null,{
-			success: function(response) {
-				console.log('Successfully SAVED user with id: ' + response.toJSON().id);
+			success: function(model, response) {
+				console.log('model ====',model.toJSON()/*,'Successfully SAVED user with id: ' + response.toJSON().id*/);
 			},
-			error: function() {
-				console.log('Failed to save user!');
-			}
+			error: function(model, response) {
+        console.log('model ====',model.toJSON(),'==',response.responseText);
+    }
 		});
-		
+
 	});
 })
