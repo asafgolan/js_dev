@@ -7,9 +7,10 @@ var schema = {
   id: 'schema/user',
   type: 'object',
   permissions: {
-    '*': ['create'],
-    admin: ['*']
-    },
+       '*': ['create'],
+       demo: ['read','create'],
+       admin: ['*']
+   },
   properties: {
     id: {
       type: 'integer'
@@ -18,10 +19,11 @@ var schema = {
       type: 'string'
     },
     password: {
-      type: 'string',
       permissions: {
-        admin: []
-      }
+               '*': [],
+               'owner': [], // why does admin & demo need to be cleared, when '*' is cleared?
+               'admin': []
+            }
     },
     roles: {
       type: 'array',
@@ -40,48 +42,29 @@ var User = serverbone.models.ACLModel.extend({
   {
     // ANALYZE GET ROLES
     //this.addRoles(args);
-    //options.actor = "hidden";
+    //_.bindAll(this, 'userExists')
+    console.log(this.isNew(), options);
 
-
-    serverbone.models.ACLModel.prototype.initialize.apply(this, args, options);
+  User.__super__.initialize.apply( this, arguments );
   },
 
-
-  preSave: function( options )
-  {
-
-    if (this.isNew() && this.findOne( this.get('username') ) )
-    {
-      console.log("error");
-      var errorObj =
-      {
-        msg: "Unprocessable entity",
-        description: "Username '" + attrs.username + "' is already taken",
-        errorCode: 422
-      }
-      return new errors.BaseError(null, errorObj);
-    }
-    else if (this.isNew() )
-    {
-      console.log("presave");
-      var salt = bcrypt.genSaltSync(12);
-      this.set("password", bcrypt.hashSync( this.get('password'), salt));
-    }
-
-  },
-
-/*
   validate: function(attrs, options)
   {
-    console.log("validate");
+    if (this.isNew() && options.action === "read" && this.checkPassword(this.attributes))
+    {
+      var user = this;
+      console.log(user);
+      return user;
+    }
+
     //options.actor = "hidden";
     // how to define sign in action?
-    if (this.isNew() && options.action === "read" && !this.checkPassword(this.attributes))
+    if (this.isNew() && !this.checkPassword(this.attributes))
     {
       console.log("Incorrect credentials!");
     }
 
-    if (this.isNew() && this.findOne(attrs.username))
+    if (this.isNew() && this.userExists(attrs.username))
     {
       var errorObj =
       {
@@ -91,7 +74,7 @@ var User = serverbone.models.ACLModel.extend({
       }
       return new errors.BaseError(null, errorObj);
     }
-    else if (this.isNew() && !this.findOne(attrs.username) && this.attributes.password)
+    else if (this.isNew() && !this.userExists(attrs.username) && this.attributes.password)
     {
       var salt = bcrypt.genSaltSync(12);
       this.set("password", bcrypt.hashSync(this.attributes.password, salt));
@@ -99,64 +82,29 @@ var User = serverbone.models.ACLModel.extend({
 
     serverbone.models.ACLModel.prototype.validate.apply(this, arguments);
   },
-*/
-  findOne: function(username)
-  {
 
-    var user;
-    this.collection.fetch
+  userExists: function(username)
+  {
+    var self =this;
+    var user ;
+    self.collection.fetch
     ({
         success: function(collection, response, options)
         {
           if (collection.findWhere({username: username}))
           {
             user = collection.findWhere({username: username});
+            //console.log('userexsits' ,  user );
           }
         }
     });
-    console.log(user);
     return user;
   },
 
-  /*userExists: function(username)
-  {
-    var exists = false;
-    this.collection.fetch
-    ({
-        success: function(collection, response, options)
-        {
-          if (collection.findWhere({username: username}))
-          {
-            exists = true;
-          }
-        }
-    });
-    return exists;
-  },*/
-
   checkPassword: function(attrs)
   {
-    var isCorrect = false;
-    this.collection.fetch
-    ({
-        success: function(collection, response, options)
-        {
-          if (collection.findWhere({username: attrs.username}))
-          {
-            console.log(response[0].password);
-            isCorrect = bcrypt.compareSync(attrs.password, response[0].password);
-          }
-        }
-    });
-    return isCorrect;
+    return bcrypt.compareSync(attrs.password, this.get('password'));
   },
-
-
-
-  addRoles: function()
-  {
-
-  }
 
   /**
    * addRoles
@@ -174,9 +122,12 @@ var User = serverbone.models.ACLModel.extend({
 
 });
 
+/*var user = new User({
+  username:'panda',
+  password:'panda_123'
+});
 
-
-//user.save();
+user.save();*/
 
 
 module.exports = User;

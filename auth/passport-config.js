@@ -8,22 +8,25 @@ module.exports = function() {
   passport.use(new passportLocal.Strategy(function(username, password, next) {
     var attr = {username: username, password: password};
     var users = new collections.Users();
+
+    /*
     users.create({
         username: username,
         password: password
     });
     console.log( 'USERS =====' ,users.toJSON());
-
+*/
     users.fetch({ where: { username: username }})
-    .then( function(err){
+    .then( function( err ){
             if(err){
               return next(err);
             }
             if( users.length == 1 ){
-            var user = users.models[0];
-            if( user.checkPassword( attr )){
-                return next( null, user );
-            }
+              var user = users.models[0];
+              if( user.checkPassword( attr )){
+                  console.log( "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" );
+                  return next( null, user );
+              }
         }
         return next( null, false );
     });

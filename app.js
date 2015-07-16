@@ -52,7 +52,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/login', login);
-app.use(restrict);
+//app.use(restrict);
 app.use('/', routes);
 app.use('/users'/*, auth*/ ,usersResource.app);
 app.use('/logout', logout);
@@ -90,11 +90,11 @@ app.use(function(err, req, res, next) {
 
 
 //demi admin
-var users = new collections.Users();
-users.create( {
-    username: 'admin',
-    password: 'admin',
-    roles: ['admin']
-});
+//var users = new collections.Users();
+//users.create( {
+  //  username: 'admin',
+    //password: 'admin',
+    //roles: ['admin']
+//});
 
 module.exports = app;
