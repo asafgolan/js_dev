@@ -151,7 +151,7 @@ $(document).ready(function() {
 				console.log('model ====',model.toJSON()/*,'Successfully SAVED user with id: ' + response.toJSON().id*/);
 			},
 			error: function(model, response) {
-        console.log('model ====',model.toJSON(),'==',response.responseText);
+        alert(response.responseText);
     }
 		});
 
