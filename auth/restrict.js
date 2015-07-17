@@ -1,12 +1,11 @@
 module.exports = function( req, res, next ){
     if( !req.isAuthenticated() ){
+      //console.log('here no');
         res.redirect('/login');
     }
     else {
-      console.log( ' ======');
-      console.log(req.user)
-      console.log( '======== ');
-        //req.actor = req.user;
+        console.log('here yes');
+        req.actor = req.user;
         next();
     }
 };

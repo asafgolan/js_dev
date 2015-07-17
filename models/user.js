@@ -7,10 +7,11 @@ var schema = {
   id: 'schema/user',
   type: 'object',
   permissions: {
-       '*': ['create'],
-       demo: ['read','create'],
-       admin: ['*']
-   },
+    admin: ['*'],
+    owner: ['update', 'destroy'],
+    '*': ['read', 'create']
+  },
+
   properties: {
     id: {
       type: 'integer'
@@ -19,7 +20,13 @@ var schema = {
       type: 'string'
     },
     password: {
-      type: 'string'
+      type: 'string',
+      /*permissions: {
+        admin: ['destroy', 'update'],//u have to trust the admin according to me!! im not sure at all if correct
+        owner: ['update', 'destroy'],
+        '*': ['create']
+     }*/
+
     },
     roles: {
       type: 'array',
@@ -40,7 +47,7 @@ var User = serverbone.models.ACLModel.extend({
     //this.addRoles(args);
     //_.bindAll(this, 'userExists')
     //console.log(this.isNew(), options);
-  console.log('here');
+
   User.__super__.initialize.apply( this, arguments );
   },
 
@@ -49,7 +56,7 @@ var User = serverbone.models.ACLModel.extend({
     if (this.isNew() && options.action === "read" && this.checkPassword(this.attributes))
     {
       var user = this;
-      console.log('here');
+      //onsole.log('here');
       return user;
     }
 
@@ -101,6 +108,8 @@ var User = serverbone.models.ACLModel.extend({
 
   checkPassword: function(attrs)
   {
+    console.log('ATTR.PASS ',attrs.password);
+    console.log('THIS.PASS ', this.get('password'));
     return bcrypt.compareSync(attrs.password, this.get('password'));
   },
 

@@ -36,7 +36,7 @@ var UserView = Backbone.View.extend({
 	initialize: function() {
 		this.template = _.template($('.users-list-template').html());
 	},
-/*  events: {
+ events: {
     'click .edit-user': 'edit',
     'click .update-user': 'update',
     'click .cancel': 'cancel',
@@ -83,7 +83,7 @@ var UserView = Backbone.View.extend({
   			console.log('Failed to delete user!');
 			  }
   		});
-  	},*/
+  	},
 
   render: function() {
 		var self = this;

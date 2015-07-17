@@ -34,7 +34,8 @@ passportConfig();
 
 var user = new models.User({
   username: 'admin',
-  password: 'admin'
+  password: 'admin',
+  roles: ['admin']
 });
 
 
