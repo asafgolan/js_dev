@@ -3,7 +3,10 @@ module.exports = function( req, res, next ){
         res.redirect('/login');
     }
     else {
-        req.actor = req.user;
+      console.log( ' ======');
+      console.log(req.user)
+      console.log( '======== ');
+        //req.actor = req.user;
         next();
     }
 };

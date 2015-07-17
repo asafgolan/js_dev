@@ -39,8 +39,8 @@ var User = serverbone.models.ACLModel.extend({
     // ANALYZE GET ROLES
     //this.addRoles(args);
     //_.bindAll(this, 'userExists')
-    console.log(this.isNew(), options);
-
+    //console.log(this.isNew(), options);
+  console.log('here');
   User.__super__.initialize.apply( this, arguments );
   },
 
@@ -49,7 +49,7 @@ var User = serverbone.models.ACLModel.extend({
     if (this.isNew() && options.action === "read" && this.checkPassword(this.attributes))
     {
       var user = this;
-      console.log(user);
+      console.log('here');
       return user;
     }
 
@@ -78,11 +78,12 @@ var User = serverbone.models.ACLModel.extend({
 
     serverbone.models.ACLModel.prototype.validate.apply(this, arguments);
   },
-
+//how can i pass
   userExists: function(username)
   {
 
     var user ;
+    if(this.collection){
     this.collection.fetch
     ({
         success: function(collection, response, options)
@@ -94,6 +95,7 @@ var User = serverbone.models.ACLModel.extend({
           }
         }
     });
+  }
     return user;
   },
 
