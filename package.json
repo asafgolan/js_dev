@@ -3,8 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+     "test": "mocha --reporter spec"
   },
+  "keywords": [
+   "serverbone"
+ ],
   "dependencies": {
     "backbone": "^1.2.1",
     "backbone-db": "~0.4",

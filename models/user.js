@@ -8,7 +8,7 @@ var schema = {
   type: 'object',
   permissions: {
     admin: ['*'],
-    owner: ['update', 'destroy'],
+    user: ['update', 'destroy'],
     '*': ['read', 'create']
   },
 
@@ -17,20 +17,20 @@ var schema = {
       type: 'integer'
     },
     username: {
-      type: 'string'
+      type: 'string',
     },
     password: {
       type: 'string',
-      /*permissions: {
-        admin: ['destroy', 'update'],//u have to trust the admin according to me!! im not sure at all if correct
-        owner: ['update', 'destroy'],
+      permissions: {
+        admin: ['read','update','destroy' ],//u have to trust the admin according to me!! im not sure at all if correct
+        user: ['update', 'destroy'],
         '*': ['create']
-     }*/
+     }
 
     },
     roles: {
       type: 'array',
-      default: []
+      default: ['user']
     }
   }
 };
@@ -62,19 +62,21 @@ var User = serverbone.models.ACLModel.extend({
 
     //options.actor = "hidden";
     // how to define sign in action?
-    if (!this.isNew() && !this.checkPassword(this.attributes))
+  /*  if (!this.isNew() && !this.checkPassword(this.attributes))
     {
       console.log("Incorrect credentials!");
-    }
+    }*/
 
     if (this.isNew() && this.userExists(attrs.username))
     {
+      console.log("val");
       var errorObj =
       {
         msg: "Unprocessable entity",
         description: "Username '" + attrs.username + "' is already taken",
         errorCode: 422
       }
+       console.log(new errors.BaseError(null, errorObj));
       return new errors.BaseError(null, errorObj);
     }
     else if (this.isNew() && !this.userExists(attrs.username) && this.attributes.password)
@@ -98,7 +100,6 @@ var User = serverbone.models.ACLModel.extend({
           if (collection.findWhere({username: username}))
           {
             user = collection.findWhere({username: username});
-            //console.log('userexsits' ,  user );
           }
         }
     });
@@ -106,12 +107,28 @@ var User = serverbone.models.ACLModel.extend({
     return user;
   },
 
-  checkPassword: function(attrs)
+ checkPassword: function(attrs)
   {
-    console.log('ATTR.PASS ',attrs.password);
-    console.log('THIS.PASS ', this.get('password'));
     return bcrypt.compareSync(attrs.password, this.get('password'));
-  },
+  }
+
+
+  /*checkPassword: function(attrs)
+ {
+   var isCorrect = false;
+   this.collection.fetch
+   ({
+       success: function(collection, response, options)
+       {
+         if (collection.findWhere({username: attrs.username}))
+         {
+           isCorrect = bcrypt.compareSync(attrs.password, response[0].password);
+         }
+
+      }
+   });
+   return isCorrect;
+ },*/
 
   /**
    * addRoles
@@ -129,12 +146,7 @@ var User = serverbone.models.ACLModel.extend({
 
 });
 
-/*var user = new User({
-  username:'panda',
-  password:'panda_123'
-});
 
-user.save();*/
 
 
 module.exports = User;

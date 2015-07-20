@@ -4,7 +4,7 @@ module.exports = function( req, res, next ){
         res.redirect('/login');
     }
     else {
-        console.log('here yes');
+        //console.log('here yes');
         req.actor = req.user;
         next();
     }

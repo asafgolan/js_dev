@@ -41,6 +41,15 @@ var user = new models.User({
 
 user.save();
 
+var user = new models.User({
+  username: 'user',
+  password: 'useriko',
+  roles: ['user']
+});
+
+
+user.save();
+
 var app = express();
 
 // view engine setup
