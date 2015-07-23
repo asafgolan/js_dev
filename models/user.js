@@ -69,7 +69,7 @@ var User = serverbone.models.ACLModel.extend({
 
     if (this.isNew() && this.userExists(attrs.username))
     {
-      console.log("val");
+
       var errorObj =
       {
         msg: "Unprocessable entity",
@@ -81,6 +81,7 @@ var User = serverbone.models.ACLModel.extend({
     }
     else if (this.isNew() && !this.userExists(attrs.username) && this.attributes.password)
     {
+      console.log("val");
       var salt = bcrypt.genSaltSync(12);
       this.set("password", bcrypt.hashSync(this.attributes.password, salt));
     }
@@ -104,6 +105,7 @@ var User = serverbone.models.ACLModel.extend({
         }
     });
   }
+   console.log( ' FROM USR EXSITS ---> ',user);
     return user;
   },
 

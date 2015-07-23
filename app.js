@@ -32,6 +32,8 @@ var passportConfig = require('./auth/passport-config');
 var restrict = require('./auth/restrict');
 passportConfig();
 
+
+
 var user = new models.User({
   username: 'admin',
   password: 'admin',

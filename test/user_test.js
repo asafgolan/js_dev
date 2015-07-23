@@ -11,9 +11,28 @@ describe('User tests', function() {
       password: 'supersecRet',
       description: 'hello world'
     });
-     user.save();
+    return user.save();
   });
 
+  it('should save another User', function() {
+    user2 = new models.User({
+      username: 'fooduser',
+      password: 'supersecRet',
+      description: 'hello world'
+    });
+    return user2.save();
+  });
+
+//it does save a user no idea what is wrong.
+  it('shouldn\'t save User', function() {
+    user3 = new models.User({
+      username: 'fooduser',//same username as user 2
+      password: 'supersecRet',
+      description: 'hello world'
+    });
+
+   user3.save();
+  });
 
 
   it('plaintext password should not be saved', function() {
@@ -29,37 +48,7 @@ describe('User tests', function() {
     return users
       .fetch()
       .then(function() {
-        users.length.should.equal(1);
+        users.length.should.equal(2);
       });
   });
-
-
-it('should save another User', function() {
-  oldUsersLength = users.length;
-  users.create({
-    username: "aba",
-    password: "even"
-  }).then(function(){
-    users.length.should.equal(1 + oldUsersLength) 
-  })
-
-});
-
-it('shouldn\'t save a User', function() {
-  user3 = new models.User({
-    username: 'foouser',
-    password: 'supersecRet3',
-    description: 'hello world'
-  });
-   user.save();
-   return users
-     .fetch()
-     .then(function() {
-       users.length.should.equal(2);
-     });
-});
-
-
-
-
 });

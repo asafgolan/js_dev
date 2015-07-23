@@ -13,18 +13,6 @@ var Users = Backbone.Collection.extend({
 	url: 'http://localhost:9999/users'
 });
 
-/* instantiate two Users
-
-var user1 = new User({
-	username: 'cobra',
-	password:'cobra_pass'
-});
-
-var user2 = new User({
-	username: 'panter',
-	password:'panter_pass'
-});
-*/
 var users = new Users();
 
 // Backbone View for one user
@@ -36,7 +24,10 @@ var UserView = Backbone.View.extend({
 	initialize: function() {
 		this.template = _.template($('.users-list-template').html());
 	},
- events: {
+
+
+//COULD BE ADDED TO SCRIPT notp art of requirments.
+ /*events: {
     'click .edit-user': 'edit',
     'click .update-user': 'update',
     'click .cancel': 'cancel',
@@ -83,7 +74,7 @@ var UserView = Backbone.View.extend({
   			console.log('Failed to delete user!');
 			  }
   		});
-  	},
+  	},*/
 
   render: function() {
 		var self = this;
