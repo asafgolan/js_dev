@@ -2,7 +2,9 @@
 ## Setup
 
     npm install
-
+    npm install -g bower
+    cd /public
+    bower install jquery backbone underscore bootstrap 
 
 ## Testing
 
