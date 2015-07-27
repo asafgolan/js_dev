@@ -1,10 +1,10 @@
 
-## setup
+## Setup
 
     npm install
 
 
-## Run tests
+## Testing
 
     npm test
 
@@ -12,30 +12,29 @@
 
     DEBUG=main bin/www
 
-## Usage examples
+## Examples
 
 1. Login:
+<ul>
+    <li>Go to localhost:9999</li>
+    <li>Log in  with username (admin) and password (admin)</li>
+</ul>
     
-    1.goto --> "localhost:9999"
-    2.login username:admin password:admin.
+2. Create & List users:
+    <ul>
+        <li>Use client UI</li>
+    </ul>
     
-2.Create & List users:
-    use UI 
-    
-##comments
+##Comments
+<ul>
+  <li>This task was done for everyplay-js-developer-assigment</li>
+  <li>The backend ACL functionality is not fully understood</li>
+  <li>Login and such was not required, however done to test the ACL when logging with different users</li>
+</ul>
 
-  1.this task was done for everyplay-js-developer-assigment
-  2.the backend ACL functionality is not fully understood.
-  3.login and such wasnt required but done to test ACL when login with different users.
-
-##errors
-  
-  1.ACL is not fully functional
-  2.when logged in with admin password are passed to frontend.
-  3.when using UI to create users only users created by admin will be allowed to login
-
-  
-  
-
-
-    
+##Errors
+  <ul>
+  <li>ACL is not fully functional</li>
+  <li>When logged in as an admin, passwords are passed to frontend</li>
+  <li>When using UI to create users, only users created by admin will be allowed to log in</li>
+  </ul>
