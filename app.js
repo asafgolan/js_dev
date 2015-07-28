@@ -45,7 +45,7 @@ user.save();
 
 var user = new models.User({
   username: 'user',
-  password: 'useriko',
+  password: 'user123',
   roles: ['user']
 });
 

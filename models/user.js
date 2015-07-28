@@ -21,6 +21,7 @@ var schema = {
     },
     password: {
       type: 'string',
+      // comment out the password permissions ???? not good???
       permissions: {
         admin: ['read','update','destroy' ],//u have to trust the admin according to me!! im not sure at all if correct
         user: ['update', 'destroy'],
@@ -56,7 +57,6 @@ var User = serverbone.models.ACLModel.extend({
     if (this.isNew() && options.action === "read" && this.checkPassword(this.attributes))
     {
       var user = this;
-      //onsole.log('here');
       return user;
     }
 
@@ -76,12 +76,10 @@ var User = serverbone.models.ACLModel.extend({
         description: "Username '" + attrs.username + "' is already taken",
         errorCode: 422
       }
-       console.log(new errors.BaseError(null, errorObj));
       return new errors.BaseError(null, errorObj);
     }
     else if (this.isNew() && !this.userExists(attrs.username) && this.attributes.password)
     {
-      console.log("val");
       var salt = bcrypt.genSaltSync(12);
       this.set("password", bcrypt.hashSync(this.attributes.password, salt));
     }
@@ -105,7 +103,7 @@ var User = serverbone.models.ACLModel.extend({
         }
     });
   }
-   console.log( ' FROM USR EXSITS ---> ',user);
+  
     return user;
   },
 

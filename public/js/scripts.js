@@ -139,7 +139,7 @@ $(document).ready(function() {
 		users.add(user);
 		user.save(null,{
 			success: function(model, response) {
-				console.log('model ====',model.toJSON()/*,'Successfully SAVED user with id: ' + response.toJSON().id*/);
+				console.log('model  -->  ',model.toJSON()/*,'Successfully SAVED user with id: ' + response.toJSON().id*/);
 			},
 			error: function(model, response) {
         alert(response.responseText);
